@@ -13,5 +13,7 @@ module.exports = defineConfig({
         resolvers: [ElementPlusResolver()]
       })
     ]
-  }
+  },
+  publicPath: './',
+  outputDir: './build'
 })

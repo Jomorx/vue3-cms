@@ -1,5 +1,4 @@
 <template>
-  <el-button>Default</el-button>
   <h1>123</h1>
 </template>
 

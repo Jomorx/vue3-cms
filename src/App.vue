@@ -7,17 +7,29 @@
   <h1>Double:{{ doubleCount }}</h1>
   <h2>{{ nameStore.name }}</h2>
   <button @click="changeName">changeName</button>
+  <el-button @click="sendRequest()">send request</el-button>
   <router-view> </router-view>
 </template>
 
 <script lang="ts" setup>
 import { useCounterStore, useNameStore } from '@/store'
 import { toRefs } from 'vue'
+import moRequest from './service'
 const { counter, increment, decrement, add, doubleCount } = toRefs(
   useCounterStore()
 )
 const nameStore = useNameStore()
 const changeName = () => (nameStore.name = 'mo')
+const sendRequest = () => {
+  moRequest.get({
+    url: 'http://101.43.180.21:3000/article/getArticleList',
+    params: {
+      currentPage: 1,
+      pageSize: 10,
+      searchText: ''
+    }
+  })
+}
 </script>
 
 <style lang="less"></style>
