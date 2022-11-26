@@ -8,6 +8,7 @@
   <h2>{{ nameStore.name }}</h2>
   <button @click="changeName">changeName</button>
   <el-button @click="sendRequest()">send request</el-button>
+  <h1>{{ Math.random() }}</h1>
   <router-view> </router-view>
 </template>
 
@@ -21,8 +22,7 @@ const { counter, increment, decrement, add, doubleCount } = toRefs(
 const nameStore = useNameStore()
 const changeName = () => (nameStore.name = 'mo')
 const sendRequest = () => {
-  moRequest.get({
-    url: 'http://101.43.180.21:3000/article/getArticleList',
+  moRequest.get('http://101.43.180.21:3000/article/getArticleList', {
     params: {
       currentPage: 1,
       pageSize: 10,

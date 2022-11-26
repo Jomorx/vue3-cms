@@ -116,20 +116,20 @@ class MORequest {
     })
   }
 
-  get<T>(config: MORequestConfig<T>): Promise<T> {
-    return this.request<T>({ ...config, method: 'GET' })
+  get<T>(url: string, config: MORequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'GET', url })
   }
 
-  post<T>(config: MORequestConfig<T>): Promise<T> {
-    return this.request<T>({ ...config, method: 'POST' })
+  post<T>(url: string, config: MORequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'POST', url })
   }
 
-  delete<T>(config: MORequestConfig<T>): Promise<T> {
-    return this.request<T>({ ...config, method: 'DELETE' })
+  delete<T>(url: string, config: MORequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'DELETE', url })
   }
 
-  patch<T>(config: MORequestConfig<T>): Promise<T> {
-    return this.request<T>({ ...config, method: 'PATCH' })
+  patch<T>(url: string, config: MORequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH', url })
   }
 }
 
