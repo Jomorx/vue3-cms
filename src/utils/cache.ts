@@ -20,4 +20,10 @@ class LocalCache {
   }
 }
 
-export default new LocalCache()
+const localCache = new LocalCache()
+export function loadCache(this: any, ...args: string[]) {
+  for (const key of args) {
+    this[key] = localCache.getCache(key) ?? null
+  }
+}
+export default localCache

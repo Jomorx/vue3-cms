@@ -5,7 +5,7 @@
         <el-input v-model="account.name" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="account.password" />
+        <el-input v-model="account.password" :show-password="true" />
       </el-form-item>
     </el-form>
   </div>
@@ -16,6 +16,8 @@ import { reactive, ref, defineExpose } from 'vue'
 import { ElForm } from 'element-plus'
 import { rules } from '../config/account-config'
 import localCache from '@/utils/cache'
+import { useLoginStore } from '../../../store'
+const loginStore = useLoginStore()
 const account = reactive({
   name: localCache.getCache('name') ?? '',
   password: localCache.getCache('password') ?? ''
@@ -35,9 +37,7 @@ const loginAction = (isKeepPassword: boolean) => {
         localCache.deleteCache('name')
         localCache.deleteCache('password')
       }
-
-      // 2.开始进行登录验证
-      // store.dispatch('login/accountLoginAction', { ...account })
+      loginStore.accountLoginAction({ ...account })
     }
   })
 }
