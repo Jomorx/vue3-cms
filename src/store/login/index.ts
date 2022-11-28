@@ -7,6 +7,7 @@ import { defineStore } from 'pinia'
 import { IAccountLoginPayload, ILoginState } from './types'
 import localCache, { loadCache } from '@/utils/cache'
 import router from '@/router'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 export const useLoginStore = defineStore<string, ILoginState, any, any>(
   'login',
   {
@@ -38,12 +39,21 @@ export const useLoginStore = defineStore<string, ILoginState, any, any>(
         // commit('changeUserMenus', userMenus)
         this.userMenus = userMenus
         localCache.setCache('userMenus', userMenus)
-
+        const routes = mapMenusToRoutes(this.userMenus)
+        routes.forEach((route) => {
+          router.addRoute('main', route)
+        })
         // 4.跳到首页
-        router.push('/')
+        router.push('/main')
       },
       loadLocalLogin() {
         loadCache.call(this, 'token', 'userInfo', 'userMenus')
+        if (localCache.getCache('userMenus')) {
+          const routes = mapMenusToRoutes(this.userMenus)
+          routes.forEach((route) => {
+            router.addRoute('main', route)
+          })
+        }
       }
     }
   }

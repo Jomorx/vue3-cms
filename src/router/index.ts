@@ -3,12 +3,20 @@ import type { RouteRecordRaw } from 'vue-router'
 import localCache from '@/utils/cache'
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
-    component: () => import('@/layouts/index.vue')
+    path: '/main',
+    name: 'main',
+    component: () => import('@/layouts/index.vue'),
+    children: []
   },
   {
     path: '/login',
+    name: 'login',
     component: () => import('@/pages/login/login.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('@/pages/not-found/not-found.vue')
   }
 ]
 

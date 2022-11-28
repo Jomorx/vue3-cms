@@ -26,7 +26,10 @@
             </template>
             <!-- 遍历里面的item -->
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.id + ''">
+              <el-menu-item
+                :index="subitem.id + ''"
+                @click="router.push(subitem.url)"
+              >
                 <!-- <i v-if="subitem.icon" :class="subitem.icon"></i> -->
                 <el-icon v-if="subitem.icon">
                   <component :is="transformIcon(subitem.icon)"></component>
@@ -52,6 +55,8 @@
 import { computed, defineProps, withDefaults } from 'vue'
 import { useLoginStore } from '@/store'
 import transformIcon from '@/utils/transformIcon'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 type IProps = {
   collapse: boolean
 }
