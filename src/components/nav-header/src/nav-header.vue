@@ -1,10 +1,9 @@
 <template>
   <div class="nav-header">
-    <i
-      class="fold-menu"
-      :class="isFold ? 'el-icon-s-fold' : 'el-icon-s-unfold'"
-      @click="handleFoldClick"
-    ></i>
+    <el-icon style="cursor: pointer">
+      <IEpExpand v-if="isFold" @click="handleFoldClick" />
+      <IEpFold v-else @click="handleFoldClick" />
+    </el-icon>
   </div>
 </template>
 
