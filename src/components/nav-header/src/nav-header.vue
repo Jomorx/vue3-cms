@@ -1,8 +1,9 @@
 <template>
   <div class="nav-header">
-    <el-icon style="cursor: pointer">
+    <el-icon style="cursor: pointer" class="fold-menu">
       <IEpExpand v-if="isFold" @click="handleFoldClick" />
       <IEpFold v-else @click="handleFoldClick" />
+      <!-- <IEpMonitor /> -->
     </el-icon>
   </div>
 </template>

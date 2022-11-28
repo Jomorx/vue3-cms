@@ -18,13 +18,19 @@
           <!-- 二级菜单的可以展开的标题 -->
           <el-sub-menu :index="item.id + ''">
             <template #title>
-              <i v-if="item.icon" :class="item.icon"></i>
+              <!-- <i v-if="item.icon" :class="item.icon"></i> -->
+              <el-icon color="white">
+                <component :is="transformIcon(item.icon)" />
+              </el-icon>
               <span>{{ item.name }}</span>
             </template>
             <!-- 遍历里面的item -->
             <template v-for="subitem in item.children" :key="subitem.id">
               <el-menu-item :index="subitem.id + ''">
-                <i v-if="subitem.icon" :class="subitem.icon"></i>
+                <!-- <i v-if="subitem.icon" :class="subitem.icon"></i> -->
+                <el-icon v-if="subitem.icon">
+                  <component :is="transformIcon(subitem.icon)"></component>
+                </el-icon>
                 <span>{{ subitem.name }}</span>
               </el-menu-item>
             </template>
@@ -45,6 +51,7 @@
 <script lang="ts" setup>
 import { computed, defineProps, withDefaults } from 'vue'
 import { useLoginStore } from '@/store'
+import transformIcon from '@/utils/transformIcon'
 type IProps = {
   collapse: boolean
 }
