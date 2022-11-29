@@ -1,3 +1,4 @@
+import { MenuItem } from '@/store/login/types'
 import moRequest from '../index'
 
 import { IAccount, IDataType, ILoginResult } from './type'
@@ -19,6 +20,6 @@ export const requestUserInfoById = (id: number) =>
   })
 
 export const requestUserMenusByRoleId = (id: number) =>
-  moRequest.get<IDataType>(LoginAPI.UserMenus + id + '/menu', {
+  moRequest.get<IDataType<MenuItem[]>>(LoginAPI.UserMenus + id + '/menu', {
     showLoading: false
   })

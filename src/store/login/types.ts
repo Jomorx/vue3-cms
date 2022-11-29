@@ -5,7 +5,7 @@ export interface IAccountLoginPayload {
 
 export interface ILoginState {
   token: string
-  userInfo: any
+  userInfo: UserInfo | null
   userMenus: MenuItem[]
 }
 //菜单
@@ -38,4 +38,33 @@ export interface Children2 {
   type: number
   parentId: number
   permission: string
+}
+//用户信息
+export interface UserInfo {
+  id: number
+  name: string
+  realname: string
+  cellphone: number
+  enable: number
+  createAt: Date
+  updateAt: Date
+  role: Role
+  department: Department
+}
+//用户权限信息
+export interface Role {
+  id: number
+  name: string
+  intro: string
+  createAt: Date
+  updateAt: Date
+}
+//用户职位信息
+export interface Department {
+  id: number
+  name: string
+  parentId?: any
+  createAt: Date
+  updateAt: Date
+  leader: string
 }

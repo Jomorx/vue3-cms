@@ -7,13 +7,13 @@ import { defineStore } from 'pinia'
 import { IAccountLoginPayload, ILoginState } from './types'
 import localCache, { loadCache } from '@/utils/cache'
 import router from '@/router'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { pushMenu } from '@/utils/map-menus'
 export const useLoginStore = defineStore<string, ILoginState, any, any>(
   'login',
   {
     state: () => ({
       token: '',
-      userInfo: {},
+      userInfo: null,
       userMenus: []
     }),
     getters: {},
@@ -29,30 +29,24 @@ export const useLoginStore = defineStore<string, ILoginState, any, any>(
         // 2.请求用户信息
         const userInfoResult = await requestUserInfoById(id)
         const userInfo = userInfoResult.data
-        // commit('changeUserInfo', userInfo)
         this.userInfo = userInfo
         localCache.setCache('userInfo', userInfo)
 
         // 3.请求用户菜单
         const userMenusResult = await requestUserMenusByRoleId(userInfo.role.id)
         const userMenus = userMenusResult.data
-        // commit('changeUserMenus', userMenus)
         this.userMenus = userMenus
+
         localCache.setCache('userMenus', userMenus)
-        const routes = mapMenusToRoutes(this.userMenus)
-        routes.forEach((route) => {
-          router.addRoute('main', route)
-        })
+        pushMenu(this.userMenus)
+
         // 4.跳到首页
         router.push('/main')
       },
       loadLocalLogin() {
         loadCache.call(this, 'token', 'userInfo', 'userMenus')
         if (localCache.getCache('userMenus')) {
-          const routes = mapMenusToRoutes(this.userMenus)
-          routes.forEach((route) => {
-            router.addRoute('main', route)
-          })
+          pushMenu(this.userMenus)
         }
       }
     }

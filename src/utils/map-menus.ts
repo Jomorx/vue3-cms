@@ -1,3 +1,4 @@
+import router from '@/router'
 import { RouteRecordRaw } from 'vue-router'
 
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
@@ -28,5 +29,12 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
 
   _recurseGetRoute(userMenus)
 
+  return routes
+}
+export const pushMenu = (menus: RouteRecordRaw[]) => {
+  const routes = mapMenusToRoutes(menus)
+  routes.forEach((route) => {
+    router.addRoute('main', route)
+  })
   return routes
 }

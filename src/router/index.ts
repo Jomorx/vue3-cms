@@ -3,6 +3,10 @@ import type { RouteRecordRaw } from 'vue-router'
 import localCache from '@/utils/cache'
 const routes: RouteRecordRaw[] = [
   {
+    path: '/',
+    redirect: '/login'
+  },
+  {
     path: '/main',
     name: 'main',
     component: () => import('@/layouts/index.vue'),
@@ -31,6 +35,6 @@ router.beforeEach((to) => {
       return '/login'
     }
   }
-  if (to.path === '/login' && localCache.getCache('token')) return '/'
+  if (to.path === '/login' && localCache.getCache('token')) return '/main'
 })
 export default router

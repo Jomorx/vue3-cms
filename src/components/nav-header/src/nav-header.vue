@@ -1,10 +1,13 @@
 <template>
   <div class="nav-header">
     <el-icon style="cursor: pointer" class="fold-menu">
-      <IEpExpand v-if="isFold" @click="handleFoldClick" />
-      <IEpFold v-else @click="handleFoldClick" />
-      <!-- <IEpMonitor /> -->
+      <Expand v-if="isFold" @click="handleFoldClick" />
+      <Fold v-else @click="handleFoldClick" />
     </el-icon>
+    <div class="content">
+      <div>面包屑</div>
+      <user-info />
+    </div>
   </div>
 </template>
 
@@ -21,9 +24,19 @@ const handleFoldClick = () => {
 
 <style scoped lang="less">
 .nav-header {
+  display: flex;
+  width: 100%;
+
   .fold-menu {
     font-size: 30px;
     cursor: pointer;
+  }
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    padding: 0 20px;
   }
 }
 </style>
