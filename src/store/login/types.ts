@@ -32,7 +32,7 @@ export interface Children {
 
 export interface Children2 {
   id: number
-  url: any
+  url: string
   name: string
   sort: any
   type: number
@@ -63,7 +63,7 @@ export interface Role {
 export interface Department {
   id: number
   name: string
-  parentId?: any
+  parentId?: number
   createAt: Date
   updateAt: Date
   leader: string

@@ -1,5 +1,8 @@
 <template>
   <div class="hy-form">
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
     <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
@@ -16,6 +19,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   :show-password="item.type === 'password'"
+                  v-model="formData[`${item.field}`]"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
@@ -23,6 +27,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   style="width: 100%"
+                  v-model="formData[`${item.field}`]"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -36,6 +41,7 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
+                  v-model="formData[`${item.field}`]"
                 ></el-date-picker>
               </template>
             </el-form-item>
@@ -43,13 +49,20 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, PropType } from 'vue'
+import { defineProps, PropType, defineEmits, watch, ref } from 'vue'
 import { IFormItem } from '../types'
-defineProps({
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true
+  },
   formItems: {
     type: Array as PropType<IFormItem[]>,
     default: () => []
@@ -73,6 +86,17 @@ defineProps({
     })
   }
 })
+const emit = defineEmits(['update:modelValue'])
+const formData = ref({ ...props.modelValue })
+watch(
+  formData,
+  (newValue) => {
+    emit('update:modelValue', newValue)
+  },
+  {
+    deep: true
+  }
+)
 </script>
 
 <style scoped lang="less">
