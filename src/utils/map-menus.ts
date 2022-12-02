@@ -5,7 +5,7 @@ import { RouteRecordRaw } from 'vue-router'
 // 第一个菜单
 export let firstMenu: any = null
 // 动态生成菜单
-export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
+export function mapMenusToRoutes(userMenus: MenuItem[]): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = []
 
   // 1.先去加载默认所有的routes

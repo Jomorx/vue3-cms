@@ -1,12 +1,13 @@
 <template>
   <div class="nav-header">
     <el-icon style="cursor: pointer" class="fold-menu">
-      <Expand v-if="isFold" @click="handleFoldClick" />
-      <Fold v-else @click="handleFoldClick" />
+      <component
+        :is="isFold ? 'Expand' : 'Fold'"
+        @click="handleFoldClick"
+      ></component>
     </el-icon>
     <div class="content">
       <mo-breadcrumb :breadcrumbs="breadcrumbs" />
-
       <user-info />
     </div>
   </div>
