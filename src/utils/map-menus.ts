@@ -1,5 +1,6 @@
 import { IBreadcrumb } from '@/base-ui/breadcrumb'
 import router from '@/router'
+import { MenuItem } from '@/store/login/types'
 import { RouteRecordRaw } from 'vue-router'
 // 第一个菜单
 export let firstMenu: any = null
@@ -38,7 +39,7 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   return routes
 }
 // 添加菜单
-export const pushMenu = (menus: RouteRecordRaw[]) => {
+export const pushMenu = (menus: MenuItem[]) => {
   const routes = mapMenusToRoutes(menus)
   routes.forEach((route) => {
     router.addRoute('main', route)

@@ -8,6 +8,10 @@ export interface ILoginState {
   userInfo: UserInfo | null
   userMenus: MenuItem[]
 }
+export interface ILoginAction {
+  accountLoginAction: (payload: IAccountLoginPayload) => void
+  loadLocalLogin: () => void
+}
 //菜单
 export interface MenuItem {
   id: number

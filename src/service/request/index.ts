@@ -82,7 +82,7 @@ class MORequest {
     )
   }
 
-  request<T>(config: MORequestConfig<T>): Promise<T> {
+  request<T = any>(config: MORequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 1.单个请求对请求config的处理
       if (config.interceptors?.requestInterceptor) {
@@ -116,19 +116,19 @@ class MORequest {
     })
   }
 
-  get<T>(url: string, config: MORequestConfig<T>): Promise<T> {
+  get<T = any>(url: string, config: MORequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET', url })
   }
 
-  post<T>(url: string, config: MORequestConfig<T>): Promise<T> {
+  post<T = any>(url: string, config: MORequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST', url })
   }
 
-  delete<T>(url: string, config: MORequestConfig<T>): Promise<T> {
+  delete<T = any>(url: string, config: MORequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE', url })
   }
 
-  patch<T>(url: string, config: MORequestConfig<T>): Promise<T> {
+  patch<T = any>(url: string, config: MORequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH', url })
   }
 }

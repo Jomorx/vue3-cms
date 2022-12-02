@@ -1,7 +1,8 @@
 import { MenuItem } from '@/store/login/types'
 import moRequest from '../index'
+import { IDataType } from '../types'
 
-import { IAccount, IDataType, ILoginResult } from './type'
+import { IAccount, ILoginResult } from './type'
 
 enum LoginAPI {
   AccountLogin = '/login',
