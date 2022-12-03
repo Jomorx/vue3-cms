@@ -5,9 +5,6 @@ export const searchFormConfig: IForm = {
   itemLayout: {
     padding: '10px 40px'
   },
-  colLayout: {
-    span: 8
-  },
   formItems: [
     {
       field: 'id',

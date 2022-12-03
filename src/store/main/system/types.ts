@@ -1,14 +1,16 @@
 import { IUserItem } from '@/service/main/system/types'
 
 export interface ISystemState {
-  userList: IUserItem[]
-  userCount: number
+  usersList: IUserItem[]
+  usersCount: number
+  roleList: any[]
+  roleCount: number
 }
 export interface IPayload {
-  pageUrl: string
-  pageInfo: IPageInfo
+  pageName: string
+  queryInfo: IQueryInfo
 }
-export interface IPageInfo {
+export interface IQueryInfo {
   offset: number
   size: number
 }

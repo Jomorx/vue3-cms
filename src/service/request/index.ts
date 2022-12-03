@@ -5,7 +5,7 @@ import type { MORequestInterceptors, MORequestConfig } from './type'
 import { ElLoading } from 'element-plus'
 import { LoadingInstance } from 'element-plus/es/components/loading/src/loading'
 
-const DEFAULT_LOADING = true
+const DEFAULT_LOADING = false
 
 class MORequest {
   instance: AxiosInstance

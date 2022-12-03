@@ -7,18 +7,34 @@ const useSystemStore = defineStore<
   string,
   ISystemState,
   any,
-  { getPageListAction: (payload: any) => void }
+  { getPageListAction: (payload: IPayload) => void }
 >('system', {
   state: () => ({
-    userList: [],
-    userCount: 0
+    usersList: [],
+    usersCount: 0,
+    roleList: [],
+    roleCount: 0
   }),
   actions: {
-    async getPageListAction({ pageUrl, pageInfo }: IPayload) {
-      const pageResult = await getPageListDataApi(pageUrl, pageInfo)
+    async getPageListAction({ pageName, queryInfo }: IPayload) {
+      const pageUrl = `/${pageName}/list`
+
+      const pageResult = await getPageListDataApi(pageUrl, queryInfo)
       const { totalCount, list } = pageResult.data
-      this.userList = list
-      this.userCount = totalCount
+      ;(this as any)[`${pageName}List`] = list
+      ;(this as any)[`${pageName}Count`] = totalCount
+      // switch (pageName) {
+      //   case 'users': {
+      //     this.usersList = list
+      //     this.usersCount = totalCount
+      //     break
+      //   }
+      //   case 'role': {
+      //     this.roleList = list
+      //     this.roleCount = totalCount
+      //     break
+      //   }
+      // }
     }
   }
 })
