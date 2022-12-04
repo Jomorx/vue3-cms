@@ -7,7 +7,9 @@
       <template #footer>
         <div class="handle-btns">
           <el-button :icon="Refresh" @click="handleResetClick">重置</el-button>
-          <el-button type="primary" :icon="Search">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="handleSearchClick"
+            >搜索</el-button
+          >
         </div>
       </template>
     </mo-form>
@@ -15,9 +17,10 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, defineEmits } from 'vue'
 import MoForm from '@/base-ui/form'
 import { Search, Refresh } from '@element-plus/icons-vue'
+const emits = defineEmits(['resetBtnClick', 'searchBtnClick'])
 const props = defineProps({
   searchFormConfig: {
     type: Object,
@@ -30,11 +33,15 @@ for (const item of formItems) {
   formOriginData[item.field] = ''
 }
 const formData = ref(formOriginData)
-
 const handleResetClick = () => {
   for (const key in formOriginData) {
     formData.value[`${key}`] = formOriginData[key]
   }
+  emits('resetBtnClick')
+}
+const handleSearchClick = () => {
+  // console.log('search')
+  emits('searchBtnClick', formData.value)
 }
 </script>
 

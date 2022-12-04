@@ -2,13 +2,15 @@
   <div class="page-content">
     <mo-table
       :propList="contentTableConfig.propList"
-      :listData="listData"
       :show-index-column="contentTableConfig.showIndexColumn!"
       :show-select-column="contentTableConfig.showSelectColumn!"
       :title="contentTableConfig.title"
+      :list-count="listCount"
+      :listData="listData"
+      v-model:page="pageInfo"
     >
       <template #headerHandler>
-        <el-button>新建用户</el-button>
+        <el-button :icon="Plus">新建</el-button>
       </template>
       <template #enable="scope">
         <el-button
@@ -42,8 +44,15 @@
 
 <script lang="ts" setup>
 import MoTable from '@/base-ui/table'
-import { Edit, Delete } from '@element-plus/icons-vue'
-import { defineProps, withDefaults, computed } from 'vue'
+import { Edit, Delete, Plus } from '@element-plus/icons-vue'
+import {
+  defineProps,
+  withDefaults,
+  computed,
+  defineExpose,
+  ref,
+  watch
+} from 'vue'
 import useSystemStore from '@/store/main/system'
 
 const props = withDefaults(
@@ -65,16 +74,26 @@ const props = withDefaults(
     })
   }
 )
-
 const systemStore = useSystemStore()
-systemStore.getPageListAction({
-  pageName: props.pageName,
-  queryInfo: {
-    offset: 0,
-    size: 10
-  }
-})
+//
+const pageInfo = ref({ pageSize: 10, currentPage: 0 })
+const getPageData = (searchInfo?: any) => {
+  systemStore.getPageListAction({
+    pageName: props.pageName,
+    queryInfo: {
+      offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+      size: pageInfo.value.pageSize,
+      ...searchInfo
+    }
+  })
+}
+//监听pageInfo信息的改变发送请求
+watch(pageInfo, () => getPageData())
+
+getPageData()
+defineExpose({ getPageData })
 const listData = computed(() => systemStore[`${props.pageName}List`])
+const listCount = computed(() => systemStore[`${props.pageName}Count`])
 const handleEditClick = (scope: any) => {
   console.log(scope)
 }
