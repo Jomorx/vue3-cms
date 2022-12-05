@@ -1,12 +1,8 @@
 import { IUserItem } from '@/service/main/system/types'
 
-export interface ISystemState {
-  usersList: IUserItem[]
-  usersCount: number
-  roleList: any[]
-  roleCount: number
-  menuList: any[]
-  menuCount: number
+export interface IProductState {
+  goodsList: any[]
+  goodsCount: number
 }
 export interface IPayload {
   pageName: string

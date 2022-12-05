@@ -13,6 +13,7 @@
       border
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      v-bind="childrenProps"
     >
       <el-table-column
         v-if="showSelectColumn"
@@ -28,16 +29,16 @@
         width="60"
       ></el-table-column>
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
           <template #default="scope">
-            <slot :name="propItem.prop" :row="scope.row">
+            <slot :name="propItem.slotName" :row="scope.row">
               {{ scope.row[propItem.prop] }}
             </slot>
           </template>
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div class="footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
           @size-change="handleSizeChange"
@@ -54,18 +55,20 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 const props = defineProps<{
   listData: Array<any>
-  propList: any
-  showIndexColumn: boolean
-  showSelectColumn: boolean
+  propList: any[]
+  showIndexColumn?: boolean
+  showSelectColumn?: boolean
   title: string
   listCount: number
   page: { pageSize: number; currentPage: number }
+  childrenProps?: object
+  showFooter?: boolean
 }>()
 const emits = defineEmits(['selectionChange', 'update:page'])
-
+console.log(props.childrenProps)
 const handleSizeChange = (pageSize: number) => {
   emits('update:page', { ...props.page, pageSize })
 }

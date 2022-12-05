@@ -6,39 +6,40 @@ export interface IAccountLoginPayload {
 export interface ILoginState {
   token: string
   userInfo: UserInfo | null
-  userMenus: MenuItem[]
+  userMenus: IMenuItem[]
+  permissions: string[]
 }
 export interface ILoginAction {
   accountLoginAction: (payload: IAccountLoginPayload) => void
   loadLocalLogin: () => void
 }
 //菜单
-export interface MenuItem {
+export interface IMenuItem {
   id: number
   name: string
   type: number
   url: string
   icon: string
   sort: number
-  children: Children[]
+  children: ISubMenuItem[]
 }
 //二级菜单
-export interface Children {
+export interface ISubMenuItem {
   id: number
   url: string
   name: string
   sort: number
   type: number
-  children?: Children2[]
+  children?: IThrMenuItem[]
   parentId: number
   icon: string
 }
 
-export interface Children2 {
+export interface IThrMenuItem {
   id: number
   url: string
   name: string
-  sort: any
+  sort: number
   type: number
   parentId: number
   permission: string

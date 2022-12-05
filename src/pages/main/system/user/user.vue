@@ -9,6 +9,7 @@
       :contentTableConfig="contentConfig"
       pageName="users"
       ref="pageContentRef"
+      store-name="system"
     />
   </div>
 </template>

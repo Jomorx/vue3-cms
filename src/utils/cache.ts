@@ -1,3 +1,5 @@
+import { ILoginState } from '@/store/login/types'
+
 class LocalCache {
   setCache(key: string, value: any) {
     window.localStorage.setItem(key, JSON.stringify(value))
@@ -21,7 +23,10 @@ class LocalCache {
 }
 
 const localCache = new LocalCache()
-export function loadCache(this: any, ...args: string[]) {
+export function loadCache(
+  this: ILoginState,
+  ...args: Array<keyof ILoginState>
+) {
   for (const key of args) {
     this[key] = localCache.getCache(key) ?? null
   }

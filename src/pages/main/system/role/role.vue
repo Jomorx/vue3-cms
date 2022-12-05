@@ -4,6 +4,7 @@
     <page-content
       :contentTableConfig="contentTableConfig"
       pageName="role"
+      store-name="system"
     ></page-content>
   </div>
 </template>

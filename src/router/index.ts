@@ -39,7 +39,7 @@ router.beforeEach((to) => {
   if (to.path === '/login' && localCache.getCache('token')) return '/main'
 
   if (to.path === '/main') {
-    return firstMenu.url
+    return firstMenu!.url
   }
 })
 export default router

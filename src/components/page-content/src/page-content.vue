@@ -1,18 +1,15 @@
 <template>
   <div class="page-content">
     <mo-table
-      :propList="contentTableConfig.propList"
-      :show-index-column="contentTableConfig.showIndexColumn!"
-      :show-select-column="contentTableConfig.showSelectColumn!"
-      :title="contentTableConfig.title"
-      :list-count="listCount"
+      v-bind="contentTableConfig"
+      :list-count="listCount ?? listData.length"
       :listData="listData"
       v-model:page="pageInfo"
     >
       <template #headerHandler>
-        <el-button :icon="Plus">新建</el-button>
+        <el-button v-if="isCreate" :icon="Plus">新建</el-button>
       </template>
-      <template #enable="scope">
+      <template #status="scope">
         <el-button
           plain
           size="small"
@@ -26,17 +23,25 @@
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #handler="scope">
+      <template #handler>
         <div class="handle-btns">
-          <el-button
-            :icon="Edit"
-            size="small"
-            @click="handleEditClick(scope)"
-            link
+          <el-button v-if="isUpdate" :icon="Edit" size="small" link
             >编辑</el-button
           >
-          <el-button :icon="Delete" size="small" link>删除</el-button>
+          <el-button v-if="isDelete" :icon="Delete" size="small" link
+            >删除</el-button
+          >
         </div>
+      </template>
+      <!--插入剩余插槽-->
+      <template
+        v-for="item in otherPropSlots"
+        :key="item.prop"
+        #[item.slotName]="scope"
+      >
+        <template v-if="item.slotName">
+          <slot :name="item.slotName" :row="scope.row"></slot>
+        </template>
       </template>
     </mo-table>
   </div>
@@ -53,35 +58,49 @@ import {
   ref,
   watch
 } from 'vue'
-import useSystemStore from '@/store/main/system'
-
+import useStore from '@/hooks/useStore'
+import { IPropItem } from '../types'
+import { usePermission } from '@/hooks/use-permission'
 const props = withDefaults(
   defineProps<{
     contentTableConfig: {
-      propList: object
+      propList: IPropItem[]
       showSelectColumn?: boolean
       showIndexColumn?: boolean
       title: string
+      childrenProps?: object
+      showFooter: boolean
     }
     pageName: string
+    storeName: string
   }>(),
   {
     contentTableConfig: () => ({
       showSelectColumn: false,
-      propList: {},
+      propList: [],
       showIndexColumn: false,
-      title: ''
+      title: '',
+      childrenProps: () => ({}),
+      showFooter: true
     })
   }
 )
-const systemStore = useSystemStore()
-//
-const pageInfo = ref({ pageSize: 10, currentPage: 0 })
+const isCreate = usePermission(props.pageName, 'create')
+const isUpdate = usePermission(props.pageName, 'update')
+const isDelete = usePermission(props.pageName, 'delete')
+const isQuery = usePermission(props.pageName, 'query')
+const store = useStore(props.storeName)
+//双向绑定pageInfo
+const pageInfo = ref({ pageSize: 10, currentPage: 1 })
+//发送网络请求
 const getPageData = (searchInfo?: any) => {
-  systemStore.getPageListAction({
+  if (!isQuery) return
+  store!.getPageListAction({
     pageName: props.pageName,
     queryInfo: {
-      offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+      offset:
+        pageInfo.value.currentPage * pageInfo.value.pageSize -
+        pageInfo.value.pageSize,
       size: pageInfo.value.pageSize,
       ...searchInfo
     }
@@ -92,11 +111,20 @@ watch(pageInfo, () => getPageData())
 
 getPageData()
 defineExpose({ getPageData })
-const listData = computed(() => systemStore[`${props.pageName}List`])
-const listCount = computed(() => systemStore[`${props.pageName}Count`])
-const handleEditClick = (scope: any) => {
-  console.log(scope)
-}
+// 从pinia获取数据
+const listData = computed(() => store![`${props.pageName}List`])
+const listCount = computed(() => store![`${props.pageName}Count`])
+// 4.获取其他的动态插槽名称
+const otherPropSlots: any[] = props.contentTableConfig?.propList.filter(
+  (item: any) => {
+    if (item.slotName === 'status') return false
+    if (item.slotName === 'createAt') return false
+    if (item.slotName === 'updateAt') return false
+    if (item.slotName === 'handler') return false
+    if (!item.slotName) return false
+    return true
+  }
+)
 </script>
 
 <style scoped>

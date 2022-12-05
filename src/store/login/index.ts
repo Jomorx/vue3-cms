@@ -7,7 +7,7 @@ import { defineStore } from 'pinia'
 import { IAccountLoginPayload, ILoginAction, ILoginState } from './types'
 import localCache, { loadCache } from '@/utils/cache'
 import router from '@/router'
-import { pushMenu } from '@/utils/map-menus'
+import { mapMenusToPermissions, pushMenu } from '@/utils/map-menus'
 export const useLoginStore = defineStore<
   string,
   ILoginState,
@@ -17,7 +17,8 @@ export const useLoginStore = defineStore<
   state: () => ({
     token: '',
     userInfo: null,
-    userMenus: []
+    userMenus: [],
+    permissions: []
   }),
   getters: {},
   actions: {
@@ -42,7 +43,8 @@ export const useLoginStore = defineStore<
 
       localCache.setCache('userMenus', userMenus)
       pushMenu(this.userMenus)
-
+      const permissions = mapMenusToPermissions(userMenus)
+      this.permissions = permissions
       // 4.跳到首页
       router.push('/main')
     },
@@ -50,6 +52,8 @@ export const useLoginStore = defineStore<
       loadCache.call(this, 'token', 'userInfo', 'userMenus')
       if (localCache.getCache('userMenus')) {
         pushMenu(this.userMenus)
+        //获取权限
+        this.permissions = mapMenusToPermissions(this.userMenus)
       }
     }
   }

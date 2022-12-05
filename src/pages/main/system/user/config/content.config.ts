@@ -17,7 +17,7 @@ export default {
       minWidth: '150',
       slotName: 'updateAt'
     },
-    { label: '操作', minWidth: '130', prop: 'handler' }
+    { label: '操作', minWidth: '130', prop: 'handler', slotName: 'handler' }
   ],
   showIndexColumn: true,
   showSelectColumn: true

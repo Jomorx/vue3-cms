@@ -6,14 +6,16 @@ export const contentTableConfig = {
     {
       prop: 'createAt',
       label: '创建时间',
-      minWidth: '250'
+      minWidth: '250',
+      slotName: 'createAt'
     },
     {
       prop: 'updateAt',
       label: '更新时间',
-      minWidth: '250'
+      minWidth: '250',
+      slotName: 'updateAt'
     },
-    { label: '操作', minWidth: '120', prop: 'handler' }
+    { label: '操作', minWidth: '120', prop: 'handler', slotName: 'handler' }
   ],
   showIndexColumn: true,
   showSelectColumn: true
