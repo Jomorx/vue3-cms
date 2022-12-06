@@ -7,7 +7,9 @@
       v-model:page="pageInfo"
     >
       <template #headerHandler>
-        <el-button v-if="isCreate" :icon="Plus">新建</el-button>
+        <el-button v-if="isCreate" :icon="Plus" @click="handleNewClick"
+          >新建</el-button
+        >
       </template>
       <template #status="scope">
         <el-button
@@ -23,12 +25,22 @@
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handle-btns">
-          <el-button v-if="isUpdate" :icon="Edit" size="small" link
+          <el-button
+            v-if="isUpdate"
+            :icon="Edit"
+            size="small"
+            link
+            @click="handleEditClick(scope.row)"
             >编辑</el-button
           >
-          <el-button v-if="isDelete" :icon="Delete" size="small" link
+          <el-button
+            v-if="isDelete"
+            :icon="Delete"
+            @click="handleDeleteClick(scope.row)"
+            size="small"
+            link
             >删除</el-button
           >
         </div>
@@ -56,7 +68,8 @@ import {
   computed,
   defineExpose,
   ref,
-  watch
+  watch,
+  defineEmits
 } from 'vue'
 import useStore from '@/hooks/useStore'
 import { IPropItem } from '../types'
@@ -85,6 +98,7 @@ const props = withDefaults(
     })
   }
 )
+const emits = defineEmits(['newBtnClick', 'editBtnClick'])
 const isCreate = usePermission(props.pageName, 'create')
 const isUpdate = usePermission(props.pageName, 'update')
 const isDelete = usePermission(props.pageName, 'delete')
@@ -125,6 +139,22 @@ const otherPropSlots: any[] = props.contentTableConfig?.propList.filter(
     return true
   }
 )
+// 5.删除/编辑/新建操作
+
+const handleDeleteClick = (item: any) => {
+  console.log(item)
+  store?.deletePageDataAction({
+    pageName: props.pageName,
+    id: item.id
+  })
+}
+
+const handleNewClick = () => {
+  emits('newBtnClick')
+}
+const handleEditClick = (item: any) => {
+  emits('editBtnClick', item)
+}
 </script>
 
 <style scoped>
