@@ -1,5 +1,3 @@
-import { IUserItem } from '@/service/main/system/types'
-
 export interface IProductState {
   goodsList: any[]
   goodsCount: number

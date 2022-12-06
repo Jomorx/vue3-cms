@@ -69,7 +69,7 @@ const props = withDefaults(
       showIndexColumn?: boolean
       title: string
       childrenProps?: object
-      showFooter: boolean
+      showFooter?: boolean
     }
     pageName: string
     storeName: string
