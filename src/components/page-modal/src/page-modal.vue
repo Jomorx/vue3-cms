@@ -8,6 +8,7 @@
       destroy-on-close
     >
       <hy-form v-bind="modalConfig" v-model="formData"></hy-form>
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
@@ -41,6 +42,10 @@ const props = defineProps({
   storeName: {
     type: String,
     required: true
+  },
+  otherInfo: {
+    type: Object,
+    default: () => ({})
   }
 })
 const dialogVisible = ref(false)
@@ -64,7 +69,7 @@ const handleConfirmClick = () => {
     console.log('编辑用户')
     store?.editPageDataAction({
       pageName: props.pageName,
-      editData: { ...formData.value },
+      editData: { ...formData.value, ...props.otherInfo },
       id: props.defaultInfo.id
     })
   } else {
@@ -72,7 +77,7 @@ const handleConfirmClick = () => {
     console.log('新建用户')
     store?.createPageDataAction({
       pageName: props.pageName,
-      newData: { ...formData.value }
+      newData: { ...formData.value, ...props.otherInfo }
     })
   }
 }

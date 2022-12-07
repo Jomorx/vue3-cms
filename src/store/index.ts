@@ -12,7 +12,8 @@ export const useIndexStore = defineStore<
     name: 'coderwhy',
     age: 18,
     entireDepartment: [],
-    entireRole: []
+    entireRole: [],
+    entireMenu: []
   }),
   actions: {
     async getInitialDataAction() {
@@ -27,10 +28,12 @@ export const useIndexStore = defineStore<
         size: 1000
       })
       const { list: roleList } = roleResult.data
-
+      const menuResult = await getPageListDataApi('/menu/list', {})
+      const { list: menuList } = menuResult.data
       // 2.保存数据
       this.entireDepartment = departmentList
       this.entireRole = roleList
+      this.entireMenu = menuList
     }
   }
 })
