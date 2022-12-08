@@ -4,6 +4,7 @@ import {
   useLoginStore,
   useIndexStore
 } from '@/store'
+import useDashboardStore from '@/store/main/analysis/dashboard'
 
 export default (name: string) => {
   let store = null
@@ -11,6 +12,7 @@ export default (name: string) => {
   const productStore = useProductStore()
   const loginStore = useLoginStore()
   const indexStore = useIndexStore()
+  const dashboardStore = useDashboardStore()
   switch (name) {
     case 'system':
       store = systemStore
@@ -25,6 +27,10 @@ export default (name: string) => {
     }
     case 'index': {
       store = indexStore
+      break
+    }
+    case 'dashboard': {
+      store = dashboardStore
       break
     }
   }
